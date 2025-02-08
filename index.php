@@ -24,7 +24,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
   </div>
   <div class="uk-navbar-right uk-margin-right">
     <ul class="uk-navbar-nav uk-visible@m">
-      <li><a href="#">HOME</a></li>
+      <li class="uk-active"><a href="#">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
       <li><a href="#">KATALOG</a></li>
       <li><a href="#">BUSSINESS</a></li>
@@ -48,7 +48,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
             <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
             <li class="uk-nav-divider"></li>
             <?php if ($_SESSION['level']=='admin'): ?>
-            <li><a href="#"><span uk-icon="server"></span> Dashboard</a></li>
+            <li><a href="./dashboard/"><span uk-icon="server"></span> Dashboard</a></li>
             <li class="uk-nav-divider"></li>
             <?php endif; ?>
             <li class="uk-nav-divider"></li>

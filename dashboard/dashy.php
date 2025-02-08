@@ -12,7 +12,7 @@ session_start();
     $username = $loggedin ? $_SESSION['username'] : '';
 }
 
-$sql = "SELECT id, username, email, password, level FROM users"; // Replace with your table name
+$sql = "SELECT id, username, email, password, level FROM users";
 $result = $conn->query($sql);
 ?>
 
@@ -99,7 +99,13 @@ $result = $conn->query($sql);
     <!-- Main Content -->
     <div class="uk-section uk-section-default" data-src="./src/img/tanki1.jpg" uk-img>
                 <div  class="uk-card uk-card-default uk-card-body uk-margin-small-left uk-margin-small-right">
-                  <h1>User Data</h1>
+                <div>
+    <ul class="uk-child-width-expand" uk-tab>
+        <li class="uk-active"><a href="#">User Data</a></li>
+        <li><a href="#">Item</a></li>
+        <li><a href="#">Item</a></li>
+    </ul>
+</div>
     <table class="uk-table uk-table-hover uk-table-divider uk-table-small">
         <thead>
             <tr>
@@ -128,6 +134,7 @@ $result = $conn->query($sql);
             <?php endif; ?>
         </tbody>
     </table>
+    
                 </div>
 
         </div>
