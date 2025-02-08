@@ -1,0 +1,248 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 20px;
+    height: 100%;
+}
+
+.body {
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3, a {
+    text-align: center;
+    color: #158cd1;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+h2 {
+    margin-top: 50px;
+}
+
+h3 {
+    margin-top: 40px;
+}
+
+a {
+    text-decoration: none;
+}
+
+fieldset {
+    border: 2px solid #158cd1;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+legend {
+    font-weight: bold;
+    color: #158cd1;
+    padding: 0 10px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+input:hover, select:hover {
+    border-color: #808080;
+    outline: none;
+    box-shadow: 0 0 5px rgba(87, 87, 87, 0.5);
+}
+
+input:focus, select:focus {
+    border-color: #158cd1;
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 117, 175, 0.5);
+}
+
+.abutton {
+    background-color: #158cd1;
+    color: #ffffff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 40%;
+    height: 45px;
+    display: block;
+    margin: 15px auto;
+    text-decoration: none;
+    text-align: center;
+    line-height: 50px;
+}
+
+.button, .passwordbutton {
+    background-color: #158cd1;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 75%;
+    height: 50px;
+    display: block;
+    margin: 0 auto 15px;
+}
+
+.button:hover, .passwordbutton:hover, .abutton:hover{
+    background-color: #1383c4;
+    box-shadow: 0 0 5px rgba(127, 138, 153, 0.5);
+}
+
+.container-radio {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 200px;
+    margin: 2px 0 15px 0;
+}
+
+.radio-label {
+    margin: -20px 0 -15px 0;
+}
+
+.radio {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+    margin-right: 5px;
+    margin-top: 15px;
+}
+
+.radio:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+    transform: scale(1.1);
+}
+
+.radio:checked::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.unselectable {
+    user-select: none;
+}
+
+.container-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    margin: 2px;
+    width: 200px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    text-align: center;
+    padding: 1px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.card h2 {
+    font-size: 20px;
+    margin: 5px 0;
+}
+
+.card p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.harga-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.harga-label input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    position: relative;
+    transform: translateY(6px);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.harga-label input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+    transform: scale(1.1) translateY(3px);
+}
+
+.harga-label input[type="checkbox"]:checked::after {
+    content: "\2713 ";
+    font-size: 18px;
+    color: white;
+    position: absolute;
+    left: 5px;
+    top: -1px;
+    animation: anim 0.3s ease;
+}
+
+@keyframes anim {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+}
