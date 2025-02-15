@@ -61,7 +61,7 @@ if (isset($_SESSION['username'])) {
             <li><a href="logout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
             <?php endif; ?>
             <?php if (!$loggedin): ?>
-            <li><a href="#"><span uk-icon="sign-in"></span> Login/Register</a></li>
+            <li class="uk-active"><a href="#"><span uk-icon="sign-in"></span> Login/Register</a></li>
             <?php endif; ?>
           </ul>
         </div>

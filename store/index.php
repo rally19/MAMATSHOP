@@ -10,9 +10,9 @@ $username = $loggedin ? $_SESSION['username'] : '';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="https://icons.iconarchive.com/icons/3xhumed/mega-games-pack-39/256/Call-of-Duty-World-at-War-11-icon.png">
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit.css" />
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit-mod.css">
-    <link rel="stylesheet" type="text/css" href="./src/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit-mod.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/style.css">
     <title>MAMATSHOP</title>
 </head>
 <body >
@@ -85,21 +85,60 @@ $username = $loggedin ? $_SESSION['username'] : '';
   </div>
 </nav>
 </div>
-  <section class="hero-section">
-    <div class="hero-content">
-      <h1 class="uk-heading-primary my-text-white">Selamat datang di <span class=" uk-text-bold">MAMATSHOP</span></h1>
-      <p class="uk-text-lead my-text-white">Dealer mesin bersenjata lokal terpercaya Anda.</p>
+<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="center: true">
+
+<div class="uk-slider-items uk-grid">
+    <div class="uk-width-4-5">
+        <div class="uk-panel">
+            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
+            <div class="uk-position-center uk-text-center">
+                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
+                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
     </div>
-    <video class="hero-background" autoplay muted>
-      <source src="src/vid/tanks1.mp4" type="video/mp4">
-    </video>
-    <video class="hero-background" autoplay muted>
-      <source src="src/vid/tanks2.mp4" type="video/mp4">
-    </video>
-    <video class="hero-background" autoplay muted>
-      <source src="src/vid/tanks3.mp4" type="video/mp4">
-    </video>
-  </section>
+    <div class="uk-width-4-5">
+        <div class="uk-panel">
+            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
+            <div class="uk-position-center uk-text-center">
+                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
+                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-4-5">
+        <div class="uk-panel">
+            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
+            <div class="uk-position-center uk-text-center">
+                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
+                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-4-5">
+        <div class="uk-panel">
+            <img src="../src/img/AbramsX-GDLS.jpegg" width="1800" height="1200" alt="">
+            <div class="uk-position-center uk-text-center">
+                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
+                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+    </div>
+    <div class="uk-width-4-5">
+        <div class="uk-panel">
+            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
+            <div class="uk-position-center uk-text-center">
+                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
+                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="previous"></a>
+<a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="next"></a>
+
+</div>
 <footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
   <div class="uk-container">
     <div class="uk-grid uk-child-width-1-3@m" uk-grid>
@@ -137,8 +176,8 @@ $username = $loggedin ? $_SESSION['username'] : '';
   </div>
 </footer>
 </div>
-<script src="./src/js/fungsis.js"></script>
-<script src="./src/js/uikit.js"></script>
-<script src="./src/js/uikit-icons.js"></script>
+<script src="../src/js/fungsis.js"></script>
+<script src="../src/js/uikit.js"></script>
+<script src="../src/js/uikit-icons.js"></script>
 </body>
 </html>

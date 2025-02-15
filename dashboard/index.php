@@ -124,7 +124,7 @@ $result = $conn->query($sql);
                 </ul>
                 
                 <ul class="uk-switcher uk-margin">
-                    <div>
+                    <div class="uk-overflow-auto">
                     <table class="uk-table uk-table-hover uk-table-divider uk-table-small">
               <thead>
                   <tr>
