@@ -1,7 +1,13 @@
 <?php
 session_start();
-$loggedin = isset($_SESSION['username']);
-$username = $loggedin ? $_SESSION['username'] : '';
+
+if (!isset($_SESSION['username'])) {
+  header("Location: ../");
+  exit();
+} else {
+  $loggedin = isset($_SESSION['username']);
+  $username = $loggedin ? $_SESSION['username'] : '';
+}
 ?>
  
 <!DOCTYPE html>
@@ -16,24 +22,28 @@ $username = $loggedin ? $_SESSION['username'] : '';
     <title>MAMATSHOP</title>
 </head>
 <body >
-<div class="uk-section-secondary uk-background-cover uk-preserve-color">
-<div uk-sticky="start: 170; animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; end: ! *">
-<nav class="uk-navbar-container" uk-navbar>
+<div class="uk-section-default uk-background-cover uk-preserve-color">
+<div uk-sticky>
+<nav class="uk-navbar-container" uk-navbar style="z-index: 50000;">
   <div class="uk-navbar-left uk-margin-left">
     <a class="uk-navbar-item uk-logo uk-text-bold" href="#">MAMATSHOP</a>
-  </div>
-  <div class="uk-navbar-right uk-margin-right">
     <ul class="uk-navbar-nav uk-visible@m">
-      <li class="uk-active"><a href="javascript:void(0)">HOME</a></li>
+      <li><a href="../">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="#">KATALOG</a></li>
+      <li><a href="#">TOKO</a></li>
       <li><a href="#">BUSSINESS</a></li>
     </ul>
+  </div>
+  <div class="uk-navbar-right uk-margin-right">
+    
     <div class="uk-visible@m">
       <input class="uk-input uk-form-width-small uk-width-1-1" type="text" placeholder="Input" aria-label="Input">
     </div>
     <div class="uk-visible@m">
       <a class="uk-navbar-toggle" href="#" uk-search-icon></a>
+    </div>
+    <div class="uk-visible@m">
+    <a class="uk-navbar-toggle" href="#" uk-icon="cart"></a>
     </div>
     <div class="uk-navbar-item uk-visible@m">
       <div>
@@ -48,19 +58,20 @@ $username = $loggedin ? $_SESSION['username'] : '';
             <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
             <li class="uk-nav-divider"></li>
             <?php if ($_SESSION['level']=='admin'): ?>
-            <li><a href="./dashboard/"><span uk-icon="server"></span> Dashboard</a></li>
+            <li><a href="../dashboard/"><span uk-icon="server"></span> Dashboard</a></li>
             <li class="uk-nav-divider"></li>
             <?php endif; ?>
             <li class="uk-nav-divider"></li>
-            <li><a href="logout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
+            <li><a href="../logout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
             <?php endif; ?>
             <?php if (!$loggedin): ?>
-            <li><a href="loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
+            <li><a href="../loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
             <?php endif; ?>
           </ul>
         </div>
       </div>
     </div>
+    
     <a class="uk-navbar-toggle uk-navbar-toggle-animate uk-hidden@m" uk-navbar-toggle-icon href="#" uk-toggle="target: #offcanvas-nav-primary"></a>
     <div id="offcanvas-nav-primary" uk-offcanvas="mode: slide">
       <div class="uk-offcanvas-bar uk-flex uk-flex-column">
@@ -85,61 +96,200 @@ $username = $loggedin ? $_SESSION['username'] : '';
   </div>
 </nav>
 </div>
-<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slider="center: true">
-
-<div class="uk-slider-items uk-grid">
-    <div class="uk-width-4-5">
-        <div class="uk-panel">
-            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
-            <div class="uk-position-center uk-text-center">
-                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
-                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
+<div class="uk-container uk-margin-large-top">
+        <div class="uk-grid-small" uk-grid>
+            <div class="uk-width-1-4@m">
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover"  uk-sticky="offset: 90; end: true" style="z-index: 500;">
+                    <h4 class="uk-card-title">Filter</h4>
+                    <form>
+                        <div class="uk-margin">
+                            <label class="uk-form-label">Tipe</label>
+                            <select class="uk-select">
+                                <option>Semua</option>
+                                <option>LFT</option>
+                                <option>MBT</option>
+                                <option>IFW</option>
+                            </select>
+                        </div>
+                        <div class="uk-margin">
+                            <label class="uk-form-label">Pembuat</label>
+                            <select class="uk-select">
+                                <option>Semua</option>
+                                <option>LFT</option>
+                                <option>MBT</option>
+                                <option>IFW</option>
+                            </select>
+                        </div>
+                        <div class="uk-margin">
+                            <label class="uk-form-label">Harga</label>
+                            <input class="uk-input" type="number" placeholder="Harga maks.">
+                            <input class="uk-input uk-margin-small-top" type="number" placeholder="Harga min.">
+                        </div>
+                        <button class="uk-button uk-button-primary uk-width-1-1">Apply</button>
+                    </form>
+                </div>
+            </div>
+            <div class="uk-width-expand">
+                <div class="uk-grid-small uk-child-width-1-3@m uk-child-width-1-2@s" uk-grid>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div>
+                    <div class="uk-card uk-card-default uk-card-hover">
+                        <div div class="uk-card-media-top">
+                        <img src="https://media.istockphoto.com/id/1477683654/photo/main-battle-tank-in-the-vast-open-field.jpg?s=612x612&w=0&k=20&c=CAJIugJ28UpG2fyFM3L--tGQjZYTFz731K5qfN-Wfjk=" alt="Product">
+                        </div>
+                        <div class="uk-card-body">
+                        <h3 class="uk-card-title uk-margin-small uk-text-truncate">Aufderheidebluhteinekleines</h3>
+                        <p class="uk-text-meta uk-margin-remove">Tipe: MBT</p>
+                        <p class="uk-text-meta uk-margin-remove">Pembuat: MBT</p>
+                        <p class="uk-text-bold uk-margin-small">Rp 500.000.000.000</p>
+                        <div class="uk-flex uk-flex-middle uk-flex-center">
+                        <button class="uk-button uk-button-primary uk-width-1-1">Details</button>
+                        <button class="uk-button uk-button-primary uk-margin-small-left uk-width-1-2" uk-icon="cart"></button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="uk-width-4-5">
-        <div class="uk-panel">
-            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
-            <div class="uk-position-center uk-text-center">
-                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
-                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
-            </div>
-        </div>
     </div>
-    <div class="uk-width-4-5">
-        <div class="uk-panel">
-            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
-            <div class="uk-position-center uk-text-center">
-                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
-                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
-            </div>
-        </div>
-    </div>
-    <div class="uk-width-4-5">
-        <div class="uk-panel">
-            <img src="../src/img/AbramsX-GDLS.jpegg" width="1800" height="1200" alt="">
-            <div class="uk-position-center uk-text-center">
-                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
-                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
-            </div>
-        </div>
-    </div>
-    <div class="uk-width-4-5">
-        <div class="uk-panel">
-            <img src="../src/img/AbramsX-GDLS.jpeg" width="1800" height="1200" alt="">
-            <div class="uk-position-center uk-text-center">
-                <h2 uk-slider-parallax="x: 100,-100">Heading</h2>
-                <p uk-slider-parallax="x: 200,-200">Lorem ipsum dolor sit amet.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<a class="uk-position-center-left uk-position-small uk-hidden-hover" href uk-slidenav-previous uk-slider-item="previous"></a>
-<a class="uk-position-center-right uk-position-small uk-hidden-hover" href uk-slidenav-next uk-slider-item="next"></a>
-
-</div>
-<footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
+<footer class="uk-section uk-section-secondary uk-padding-remove-bottom uk-margin-top">
   <div class="uk-container">
     <div class="uk-grid uk-child-width-1-3@m" uk-grid>
       <div>
@@ -149,7 +299,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
       <div>
         <h4 class="uk-text-bold">LINKS</h4>
         <ul class="uk-list">
-          <li class="uk-active"><a href="javascript:void(0)" class="uk-link-text">Home</a></li>
+          <li><a href="#" class="uk-link-text">Home</a></li>
           <li><a href="#" class="uk-link-text">Tentang kami</a></li>
           <li><a href="#" class="uk-link-text">Katalog</a></li>
           <li><a href="#" class="uk-link-text">Bussiness</a></li>
@@ -175,7 +325,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
     </div>
   </div>
 </footer>
-</div>
+
 <script src="../src/js/fungsis.js"></script>
 <script src="../src/js/uikit.js"></script>
 <script src="../src/js/uikit-icons.js"></script>

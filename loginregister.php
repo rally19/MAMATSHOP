@@ -2,7 +2,7 @@
 session_start(); 
  
 if (isset($_SESSION['username'])) {
-  header("Location: index.php");
+  header("Location: ./");
   exit();
 } else {
   $loggedin = isset($_SESSION['username']);
@@ -30,9 +30,9 @@ if (isset($_SESSION['username'])) {
   </div>
   <div class="uk-navbar-right uk-margin-right">
     <ul class="uk-navbar-nav uk-visible@m">
-      <li><a href="#">HOME</a></li>
+      <li><a href="./">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="#">KATALOG</a></li>
+      <li><a href="./store">TOKO</a></li>
       <li><a href="#">BUSSINESS</a></li>
     </ul>
     <div class="uk-visible@m">

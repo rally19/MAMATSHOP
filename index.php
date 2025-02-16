@@ -15,7 +15,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
     <link rel="stylesheet" type="text/css" href="./src/css/style.css">
     <title>MAMATSHOP</title>
 </head>
-<body >
+<body>
 <div class="uk-section-secondary uk-background-cover uk-preserve-color">
 <div uk-sticky="start: 170; animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; end: ! *">
 <nav class="uk-navbar-container" uk-navbar>
@@ -26,7 +26,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
     <ul class="uk-navbar-nav uk-visible@m">
       <li class="uk-active"><a href="javascript:void(0)">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="#">KATALOG</a></li>
+      <li><a href="./store">TOKO</a></li>
       <li><a href="#">BUSSINESS</a></li>
     </ul>
     <div class="uk-visible@m">

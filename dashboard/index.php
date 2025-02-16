@@ -18,16 +18,17 @@ $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit-mod.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/style.css">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/css/uikit.min.css" />
 </head>
 <body>
     <div class="uk-grid-collapse" uk-grid>
-        <!-- Sidebar -->
         <div class="uk-width-1-6 uk-background-secondary uk-light uk-padding-small uk-visible@m" style="height: 100vh; position: sticky; top: 0;">
             <h3 class="uk-text-center">Dashboard</h3>
             <ul class="uk-nav uk-nav-default">
@@ -37,10 +38,7 @@ $result = $conn->query($sql);
                 <li><a href="../">Exit</a></li>
             </ul>
         </div>
-        
-        <!-- Main Content -->
         <div class="uk-width-expand">
-            <!-- Navbar -->
             <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
             <nav class="uk-navbar-container" uk-navbar>
                 <div class="uk-navbar-left uk-flex uk-flex-1 uk-margin-left">
@@ -154,13 +152,14 @@ $result = $conn->query($sql);
               </tbody>
           </table>
                     </div>
-                    <li>Curabitur aliquet quam id dui posuere blandit.<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></li>
-                    <li>Quisque velit nisi, pretium ut lacinia in, elementum id enim.<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></li>
+                    <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris augue enim, efficitur ut quam vitae, dapibus varius lacus. Quisque quis suscipit est. Nam ornare, sapien tempor ultricies mollis, tortor ligula dictum erat, ut placerat ligula ligula eget metus. Nulla lacinia rhoncus rhoncus. Nulla facilisi. Sed at dignissim ante, id facilisis mauris. Sed et commodo mauris, vitae mollis justo. Nullam sit amet sem et lectus finibus feugiat. Proin dapibus tortor at auctor varius. Aenean maximus velit consequat, rutrum enim eget, vehicula erat. Pellentesque posuere sem eu velit dictum aliquet. Maecenas vulputate nisi in suscipit mattis.</li>
+                    <li>Nulla condimentum turpis nunc, eu placerat orci tristique eget. Aenean a egestas tellus. Curabitur varius nulla at elit interdum viverra. Sed tempor enim lobortis est hendrerit, sit amet vestibulum neque suscipit. Morbi tincidunt nec metus id blandit. Praesent sit amet metus vestibulum, aliquet nisl non, aliquet turpis. Quisque at finibus tortor. Ut ut convallis purus, eget varius quam. Nullam fringilla suscipit aliquam. Ut eu justo quam. Integer tincidunt augue sit amet consectetur blandit. In condimentum interdum quam ut pulvinar.</li>
                 </ul>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.24/dist/js/uikit-icons.min.js"></script>
+    <script src="../src/js/fungsis.js"></script>
+    <script src="../src/js/uikit.js"></script>
+    <script src="../src/js/uikit-icons.js"></script>
 </body>
 </html>
