@@ -1,92 +1,132 @@
-<?php
-session_start();
+<?php 
+include '../config.php';
+session_start(); 
  
-if (!isset($_SESSION['username'])) {
-    header("Location: index.php");
-    exit(); // Terminate script execution after the redirect
+ if (!isset($_SESSION['username'])) {
+    header("Location: ../unknown.php");
+    exit();
+}   elseif ($_SESSION['level']!='admin') {
+    header("Location: ../unknown.php");
+    exit();
+}   else {
+    $loggedin = isset($_SESSION['username']);
+    $username = $loggedin ? $_SESSION['username'] : '';
 }
+
+$sql = "SELECT id, username, email, password, level FROM users"; 
+$result = $conn->query($sql);
+
+$action = isset($_GET['action']) ? $_GET['action'] : 'list';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASHBOARD</title>
-    <link rel="icon" type="image/x-icon" href="https://icons.iconarchive.com/icons/3xhumed/mega-games-pack-39/256/Call-of-Duty-World-at-War-11-icon.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit-mod.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/style.css">
+    <title>Dashboard</title>
 </head>
-<body  style="background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(https://canfora.se/red-army-on-parade/img/backyard.jpg);">
-    <div class="body" style="max-width: 1200px;">
-        <div class="super-container">
-        <!--SIDEBAR DISINI-->
-        <fieldset class="sidebar">
-        <div class="dropdown">
-  <button class="dropdown-toggle dbutton"><?php echo $_SESSION['username']; ?></button>
-  <div class="dropdown-menu">
-    <a href="#">Akun</a>
-    <a href="#">Atmins</a>
-    <a href="#" onclick="logout()">Logout</a>
-  </div>
-</div>
-            <ul class="sidebar-links">
-                <li><a href="#">Users</a></li>
-                <li><a href="#">Charts</a></li>
-                <li><a href="#">Tentang</a></li>
+<body>
+    <div class="uk-grid-collapse" uk-grid>
+        <div class="uk-width-1-6 uk-background-secondary uk-light uk-padding-small uk-visible@m" style="height: 100vh; position: sticky; top: 0;">
+            <h3 class="uk-text-center">Dashboard</h3>
+            <ul class="uk-nav-default" uk-nav="multiple: true">
+                <li class="uk-active"><a href="#">Home</a></li>
+                <li><a href="#">Settings</a></li>
+                <li class="uk-parent">
+            <a href="#">Parent <span uk-nav-parent-icon></span></a>
+            <ul class="uk-nav-sub">
+                <li><a href="#">Sub item</a></li>
+                <li><a href="#">Sub item</a></li>
             </ul>
-        </fieldset>
-        <form>
-            <h1>DASHBOARD GUNSHOP JOMOKERTO</h1>
-            <fieldset class="container-card">
-            <legend>KATALOG TOKO TERPOPULER BERDASARKAN DATA 2069-2420:</legend>
-                <div class="card">
-                    <img src="https://collections.rmg.co.uk/media/389/482/e8743.jpg" alt="Product Image">
-                    <h2>AK-47</h2>
-                    <br>
+            </li>
+            <li class="uk-parent">
+            <a href="#">Parent <span uk-nav-parent-icon></span></a>
+            <ul class="uk-nav-sub">
+                <li><a href="#">Sub item</a></li>
+                <li><a href="#">Sub item</a></li>
+            </ul>
+            </li>
+            <li class="uk-nav-divider"></li>
+            <li><a href="../">Exit</a></li>
+            </ul>
+        </div>
+        <div class="uk-width-expand">
+            <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky">
+            <nav class="uk-navbar-container" uk-navbar>
+                <div class="uk-navbar-left uk-flex uk-flex-1 uk-margin-left">
+                    <form class="uk-search uk-search-default" style="flex-grow: 1;">
+                        <span uk-search-icon></span>
+                        <input class="uk-search-input uk-width-1-1" type="search" placeholder="Search...">
+                    </form>
                 </div>
-                <div class="card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkw4Ebu9YsVG-6cxK3Ysh6YPydrvYf-gRJqw&s" alt="Product Image">
-                    <br><br>
-                    <h2>HK43</h2>
-                    <br>
+                <div class="uk-navbar-right uk-margin-left uk-margin-right">
+                <a class="uk-navbar-toggle" href="#" uk-icon="user"></a>
+                <div uk-dropdown="pos: bottom-right; delay-hide: 400; animation: uk-animation-slide-top-small; animate-out: true; offset: -1">
+                <ul class="uk-nav uk-dropdown-nav">
+                    <?php if ($loggedin): ?>
+                    <li><?php echo htmlspecialchars($username); ?></li>
+                    <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="#"><span uk-icon="user"></span> Account</a></li>
+                    <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <?php if ($_SESSION['level']=='admin'): ?>
+                    <li><a href="../dashboard"><span uk-icon="server"></span> Dashboard</a></li>
+                    <li class="uk-nav-divider"></li>
+                    <?php endif; ?>
+                    <li class="uk-nav-divider"></li>
+                    <li><a href="../auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
+                    <?php endif; ?>
+                    <?php if (!$loggedin): ?>
+                    <li><a href="../auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
+                    <?php endif; ?>
+                </ul>
                 </div>
-                <div class="card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWZo2VeqcIo83OKds7-lHXAeEoum8fteKAkg&s" alt="Product Image">
-                    <h2>IMI Galil</h2>
-                    <br>
+                    <a class="uk-hidden@m uk-icon-link" href="#" uk-icon="icon: menu" uk-toggle="target: #offcanvas-sidebar"></a>
                 </div>
-                <div class="card">
-                    <img src="https://p.turbosquid.com/ts-thumb/Nq/X6ZK41/Ep/0011200x1200/jpg/1626402876/600x600/fit_q87/0e15c75cf85de3e2504c68a62335bb8478e4939e/0011200x1200.jpg" alt="Product Image">
-                    <h2>FN FAL</h2>
-                    <br>
+            </nav>
+            </div>
+            <div id="offcanvas-sidebar" uk-offcanvas="overlay: true">
+                <div class="uk-offcanvas-bar">
+                    <h3>Dashboard</h3>
+                    <ul class="uk-nav uk-nav-default">
+                        <li class="uk-active"><a href="#">Home</a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li><a href="#">Settings</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
                 </div>
-            </fieldset>
-            <br>
-            <fieldset>
-            <legend>JUAL DATA PELANGGAN:</legend>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas vitae laoreet lorem, nec vulputate sapien. Nullam non condimentum enim. Aenean interdum dictum viverra. In vitae ligula varius, viverra ante ac, ultrices neque. Nullam non hendrerit ante. Suspendisse efficitur justo ac auctor varius. Donec tincidunt congue enim et iaculis. Donec fringilla massa eu magna pharetra, at suscipit felis pharetra. Maecenas pulvinar dignissim metus pretium tincidunt. Duis interdum velit sagittis turpis feugiat pulvinar. Donec aliquam at dolor ut gravida. Mauris iaculis, velit a feugiat varius, ipsum turpis sollicitudin sapien, nec mattis urna urna sit amet ipsum. Donec fringilla nec nulla quis pharetra. Vivamus nec tempor velit. Donec varius, sapien ac venenatis iaculis, enim velit interdum ante, non eleifend libero neque ac neque. Proin in ex sit amet est ultricies maximus.</p>
-            <fieldset class="container-radio">
-            <legend>YAKING JUAL?</legend>
-            <label class="radio-label"><input class="radio" type="radio" name="jual" value="ya">YA</label>
-            <label class="radio-label"><input class="radio" type="radio" name="jual" value="tidak">TIDAK</label>
-            </fieldset>
-            </fieldset>
-            </fieldset>
-            <br>
-            <input type="submit" name="kirim" value="Kirim" class="button" onclick="alert('atmin?')">
-        </form>
-    </div>
-    <!-- Modal -->
-    <?php if (isset($_SESSION['show_popup']) && $_SESSION['show_popup']): ?>
-    <div id="selamatModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Selamat datang <?php echo $_SESSION['level']; ?>, <?php echo $_SESSION['username']; ?>!</h2>
-            <p>Terima kasih telah login kembali min.</p>
+            </div>
+            <?php
+            switch ($action) {
+                case 'list':
+                    include 'list.php';
+                    break;
+                case 'view':
+                    include 'view.php';
+                    break;
+                case 'edit':
+                    include 'edit.php';
+                    break;
+                case 'delete':
+                    include 'delete.php';
+                    break;
+                case 'create':
+                    include 'create.php';
+                    break;
+                default:
+                    include 'list.php';
+                    break;
+            }
+            ?>
         </div>
     </div>
-    <?php $_SESSION['show_popup'] = false;?>
-    <?php endif; ?>
-    <script src="fungsis.js"></script>
+    <script src="../src/js/fungsis.js"></script>
+    <script src="../src/js/uikit.js"></script>
+    <script src="../src/js/uikit-icons.js"></script>
 </body>
 </html>

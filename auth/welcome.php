@@ -1,21 +1,28 @@
-<?php
-session_start();
+<?php 
+session_start(); 
+
+if (!isset($_SERVER['HTTP_REFERER'])) {
+    header("Location: ../unknown.php");
+    exit();
+}
+
 $loggedin = isset($_SESSION['username']);
 $username = $loggedin ? $_SESSION['username'] : '';
+
 ?>
- 
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="https://icons.iconarchive.com/icons/3xhumed/mega-games-pack-39/256/Call-of-Duty-World-at-War-11-icon.png">
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit.css" />
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit-mod.css">
-    <link rel="stylesheet" type="text/css" href="./src/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/mamatshop1/src/css/uikit.css" />
+    <link rel="stylesheet" type="text/css" href="/mamatshop1/src/css/uikit-mod.css">
+    <link rel="stylesheet" type="text/css" href="/mamatshop1/src/css/style.css">
     <title>MAMATSHOP</title>
 </head>
-<body>
+<body >
 <div class="uk-section-secondary uk-background-cover uk-preserve-color">
 <div uk-sticky="start: 170; animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; end: ! *">
 <nav class="uk-navbar-container" uk-navbar>
@@ -24,9 +31,9 @@ $username = $loggedin ? $_SESSION['username'] : '';
   </div>
   <div class="uk-navbar-right uk-margin-right">
     <ul class="uk-navbar-nav uk-visible@m">
-      <li class="uk-active"><a href="javascript:void(0)">HOME</a></li>
+      <li><a href="/mamatshop1/">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="./store">TOKO</a></li>
+      <li><a href="/mamatshop1/store">TOKO</a></li>
       <li><a href="#">BUSSINESS</a></li>
     </ul>
     <div class="uk-visible@m">
@@ -39,7 +46,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
       <div>
         <a class="uk-navbar-toggle" href="#" uk-icon="user"></a>
         <div uk-dropdown="pos: bottom-right; delay-hide: 400; animation: uk-animation-slide-top-small; animate-out: true; offset: -1">
-          <ul class="uk-nav uk-dropdown-nav">
+        <ul class="uk-nav uk-dropdown-nav">
             <?php if ($loggedin): ?>
             <li><?php echo htmlspecialchars($username); ?></li>
             <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
@@ -48,14 +55,14 @@ $username = $loggedin ? $_SESSION['username'] : '';
             <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
             <li class="uk-nav-divider"></li>
             <?php if ($_SESSION['level']=='admin'): ?>
-            <li><a href="./dashboard"><span uk-icon="server"></span> Dashboard</a></li>
+            <li><a href="/mamatshop1/dashboard"><span uk-icon="server"></span> Dashboard</a></li>
             <li class="uk-nav-divider"></li>
             <?php endif; ?>
             <li class="uk-nav-divider"></li>
-            <li><a href="./auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
+            <li><a href="/mamatshop1/auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
             <?php endif; ?>
             <?php if (!$loggedin): ?>
-            <li><a href="./auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
+            <li><a href="/mamatshop1/auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
             <?php endif; ?>
           </ul>
         </div>
@@ -65,8 +72,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
     <div id="offcanvas-nav-primary" uk-offcanvas="mode: slide">
       <div class="uk-offcanvas-bar uk-flex uk-flex-column">
         <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
-          <li class="uk-active"><a class="uk-navbar-item uk-logo uk-text-bold" href="javascript:void(0)">MAMATSHOP</a></li>
-          <li class="uk-parent"><a href="#">Active</a></li>
+          <li class="uk-active"><a href="#">Active</a></li>
           <li class="uk-parent">
             <a href="#">Parent</a>
             <ul class="uk-nav-sub">
@@ -85,23 +91,28 @@ $username = $loggedin ? $_SESSION['username'] : '';
   </div>
 </nav>
 </div>
-  <section class="hero-section">
-    <div class="hero-content">
-      <h1 class="uk-heading-primary my-text-white">Selamat datang di <span class=" uk-text-bold">MAMATSHOP</span></h1>
-      <p class="uk-text-lead my-text-white">Dealer mesin bersenjata lokal terpercaya Anda.</p>
+    <!-- Main Content -->
+    <div class="uk-section uk-section-default" data-src="/mamatshop1/src/img/tanki1.jpg" uk-img>
+        <div class="uk-container">
+                <div  class="uk-card uk-card-default uk-card-body">
+                  <div class="uk-text-center">
+                    <br>
+                    <?php if ($loggedin): ?>
+                        <?php if ($_SESSION['level'] == 'admin'): ?>
+                            <h2 class="uk-text-bolder">Selamat datang Admin <?php echo htmlspecialchars($username); ?> di MAMATSHOP!</h2>
+                            <h4>Berhasil Login! Silahkan lanjut ke <a href="#" onclick="history.go(-2)">halaman sebelumnya</a> atau ke <a href="../dashboard">halaman dashboard</a></h4>
+                        <?php else: ?>
+                            <h2 class="uk-text-bolder">Selamat datang <?php echo htmlspecialchars($username); ?> di MAMATSHOP!</h2>
+                            <h4>Berhasil Login! Silahkan lanjut ke <a href="#" onclick="history.go(-2)">halaman sebelumnya</a> atau ke <a href="../">halaman utama</a></h4>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                  <br>
+                  </div>
+                </div>
+                </div>
+
+        </div>
     </div>
-    <div style="background-color:black; opacity:0.5;">
-    <video class="hero-background" autoplay muted>
-      <source src="src/vid/tanks1.mp4" type="video/mp4">
-    </video>
-    <video class="hero-background" autoplay muted>
-      <source src="src/vid/tanks2.mp4" type="video/mp4">
-    </video>
-    <video class="hero-background" autoplay muted>
-      <source src="src/vid/tanks3.mp4" type="video/mp4">
-    </video>
-    </div>
-  </section>
 <footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
   <div class="uk-container">
     <div class="uk-grid uk-child-width-1-3@m" uk-grid>
@@ -112,7 +123,7 @@ $username = $loggedin ? $_SESSION['username'] : '';
       <div>
         <h4 class="uk-text-bold">LINKS</h4>
         <ul class="uk-list">
-          <li class="uk-active"><a href="javascript:void(0)" class="uk-link-text">Home</a></li>
+          <li><a href="#" class="uk-link-text">Home</a></li>
           <li><a href="#" class="uk-link-text">Tentang kami</a></li>
           <li><a href="#" class="uk-link-text">Katalog</a></li>
           <li><a href="#" class="uk-link-text">Bussiness</a></li>
@@ -126,21 +137,21 @@ $username = $loggedin ? $_SESSION['username'] : '';
           <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="instagram"></a>
           <a href="#" class="uk-icon-button uk-margin-small-right" uk-icon="linkedin"></a>
         </div>
-        <p class="uk-text-muted">Email: mamatshop@leonelrs.my.id<br>Phone: +1 234 567 890</p>
+        <p class="uk-text-muted">Email: info@company.com<br>Phone: +1 234 567 890</p>
       </div>
     </div>
     <div class="uk-section uk-section-xsmall">
     <hr>
       <div class="uk-flex uk-flex-between uk-flex-middle">
-        <p class="uk-text-small uk-text-muted">&copy; 2023 Mamatshop. All rights reserved.</p>
+        <p class="uk-text-small uk-text-muted">&copy; 2023 Company Name. All rights reserved.</p>
         <p class="uk-text-small uk-text-muted">123 Main Street, City, Country</p>
       </div>
     </div>
   </div>
 </footer>
 </div>
-<script src="./src/js/fungsis.js"></script>
-<script src="./src/js/uikit.js"></script>
-<script src="./src/js/uikit-icons.js"></script>
+<script src="/mamatshop1/src/js/fungsis.js"></script>
+<script src="/mamatshop1/src/js/uikit.js"></script>
+<script src="/mamatshop1/src/js/uikit-icons.js"></script>
 </body>
 </html>

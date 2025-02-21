@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /mamatshop1/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ unknown.php [L]

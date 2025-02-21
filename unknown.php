@@ -1,13 +1,9 @@
 <?php 
 session_start(); 
  
- if (isset($_SESSION['username'])) {
-   header("Location: index.php");
-   exit();
- } else {
-    $loggedin = isset($_SESSION['username']);
-    $username = $loggedin ? $_SESSION['username'] : '';
-  }
+$loggedin = isset($_SESSION['username']);
+$username = $loggedin ? $_SESSION['username'] : '';
+
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +12,9 @@ session_start();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="https://icons.iconarchive.com/icons/3xhumed/mega-games-pack-39/256/Call-of-Duty-World-at-War-11-icon.png">
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit.css" />
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit-mod.css">
-    <link rel="stylesheet" type="text/css" href="./src/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/mamatshop1/src/css/uikit.css" />
+    <link rel="stylesheet" type="text/css" href="/mamatshop1/src/css/uikit-mod.css">
+    <link rel="stylesheet" type="text/css" href="/mamatshop1/src/css/style.css">
     <title>MAMATSHOP</title>
 </head>
 <body >
@@ -30,9 +26,9 @@ session_start();
   </div>
   <div class="uk-navbar-right uk-margin-right">
     <ul class="uk-navbar-nav uk-visible@m">
-      <li><a href="./">HOME</a></li>
+      <li><a href="/mamatshop1/">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="./store">TOKO</a></li>
+      <li><a href="/mamatshop1/store">TOKO</a></li>
       <li><a href="#">BUSSINESS</a></li>
     </ul>
     <div class="uk-visible@m">
@@ -45,7 +41,7 @@ session_start();
       <div>
         <a class="uk-navbar-toggle" href="#" uk-icon="user"></a>
         <div uk-dropdown="pos: bottom-right; delay-hide: 400; animation: uk-animation-slide-top-small; animate-out: true; offset: -1">
-          <ul class="uk-nav uk-dropdown-nav">
+        <ul class="uk-nav uk-dropdown-nav">
             <?php if ($loggedin): ?>
             <li><?php echo htmlspecialchars($username); ?></li>
             <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
@@ -54,14 +50,14 @@ session_start();
             <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
             <li class="uk-nav-divider"></li>
             <?php if ($_SESSION['level']=='admin'): ?>
-            <li><a href="#"><span uk-icon="server"></span> Dashboard</a></li>
+            <li><a href="/mamatshop1/dashboard"><span uk-icon="server"></span> Dashboard</a></li>
             <li class="uk-nav-divider"></li>
             <?php endif; ?>
             <li class="uk-nav-divider"></li>
-            <li><a href="logout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
+            <li><a href="/mamatshop1/auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
             <?php endif; ?>
             <?php if (!$loggedin): ?>
-            <li><a href="loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
+            <li><a href="/mamatshop1/auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
             <?php endif; ?>
           </ul>
         </div>
@@ -91,29 +87,14 @@ session_start();
 </nav>
 </div>
     <!-- Main Content -->
-    <div class="uk-section uk-section-default" data-src="./src/img/tanki1.jpg" uk-img>
+    <div class="uk-section uk-section-default" data-src="/mamatshop1/src/img/tanki1.jpg" uk-img>
         <div class="uk-container">
                 <div  class="uk-card uk-card-default uk-card-body">
-                  <div>
-                  <form action="proseslupa.php" method="POST">
-                        <h2 class="uk-card-title">Ganti Password</h2>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="text" placeholder="Username" name="username" required>
-                        </div>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="email" placeholder="Email" name="email" required>
-                        </div>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="password" placeholder="Password" name="password" required>
-                        </div>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="password" placeholder="Confirm Password" name="cpassword" required>
-                        </div>
-                        <div class="uk-margin">
-                            <button class="uk-button uk-button-primary uk-width-1-1" name="submit">Ganti</button>
-                        </div>
-                        <p class="uk-text-small"><a href="loginregister.php">Gak jadi.</a></p>
-                    </form>
+                  <div class="uk-text-center">
+                    <br>
+                  <h2 class="uk-text-bolder">MOHON MAAF HALAMAN YANG ANDA TUJUI TIDAK ADA</h2>
+                  <h4>Silahkan kembali ke <a href="#" onclick="history.go(-1)">halaman sebelumnya</a> atau ke <a href="./">halaman utama </a></h4>
+                  <br>
                   </div>
                 </div>
                 </div>
@@ -157,8 +138,8 @@ session_start();
   </div>
 </footer>
 </div>
-<script src="./src/js/fungsis.js"></script>
-<script src="./src/js/uikit.js"></script>
-<script src="./src/js/uikit-icons.js"></script>
+<script src="/mamatshop1/src/js/fungsis.js"></script>
+<script src="/mamatshop1/src/js/uikit.js"></script>
+<script src="/mamatshop1/src/js/uikit-icons.js"></script>
 </body>
 </html>

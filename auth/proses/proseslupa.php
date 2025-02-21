@@ -1,9 +1,9 @@
 <?php
-include 'config.php';
+include '../../config.php';
 session_start();
 
 if (isset($_SESSION['username'])) {
-    header("Location: index.php");
+    header("Location: ../../");
     exit();
 }
 
@@ -23,15 +23,15 @@ if (isset($_POST['submit'])) {
             
             $update = "UPDATE users SET password='$password' WHERE id='$id'";
             if (mysqli_query($conn, $update)) {
-                echo "<script>alert('Password berhasil diubah!'); window.location.href = 'loginregister.php';</script>";
+                echo "<script>alert('Password berhasil diubah!'); window.location.href = '../auth/loginregister.php';</script>";
             } else {
-                echo "<script>alert('Terjadi kesalahan saat mengubah password.'); window.location.href = 'loginregister.php';</script>";
+                echo "<script>alert('Terjadi kesalahan saat mengubah password.'); window.location.href = '../auth/loginregister.php';</script>";
             }
         } else {
-            echo "<script>alert('Username atau Email tidak ditemukan.'); window.location.href = 'loginregister.php';</script>";
+            echo "<script>alert('Username atau Email tidak ditemukan.'); window.location.href = '../auth/loginregister.php';</script>";
         }
     } else {
-        echo "<script>alert('Password dan Konfirmasi Password tidak cocok!'); window.location.href = 'loginregister.php';</script>";
+        echo "<script>alert('Password dan Konfirmasi Password tidak cocok!'); window.location.href = '../auth/loginregister.php';</script>";
     }
 }
 ?>

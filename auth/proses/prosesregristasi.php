@@ -1,9 +1,9 @@
 <?php
-include 'config.php';
+include '../../config.php';
 session_start();
 
 if (isset($_SESSION['username'])) {
-    header("Location: index.php");
+    header("Location: ../../");
     exit();
 }
 
@@ -28,22 +28,22 @@ if (isset($_POST['submit'])) {
                     $email = "";
                     $_POST['password'] = "";
                     $_POST['cpassword'] = "";
-                    echo '<script>window.location.href = "loginregister.php"</script>';
+                    echo '<script>window.location.href = "../auth/loginregister.php"</script>';
                 } else {
                     echo "<script>alert('Woops! Terjadi kesalahan.')</script>";
-                    echo '<script>window.location.href = "loginregister.php"</script>';
+                    echo '<script>window.location.href = "../auth/loginregister.php"</script>';
                 }
             } else {
                 echo "<script>alert('Woops! Email Sudah Terdaftar.')</script>";
-                echo '<script>window.location.href = "loginregister.php"</script>';
+                echo '<script>window.location.href = "../auth/loginregister.php"</script>';
             }
         } else {
             echo "<script>alert('Password Tidak Sesuai')</script>";
-            echo '<script>window.location.href = "loginregister.php"</script>';
+            echo '<script>window.location.href = "../auth/loginregister.php"</script>';
         }
     } else {
         echo "<script>alert('Silakan pilih level (user atau admin).')</script>";
-        echo '<script>window.location.href = "loginregister.phpp"</script>';
+        echo '<script>window.location.href = "../auth/loginregister.phpp"</script>';
     }
 
     

@@ -1,13 +1,21 @@
 <?php 
 session_start(); 
  
-if (isset($_SESSION['username'])) {
-  header("Location: ./");
+if (!isset($_SERVER['HTTP_REFERER'])) {
+  header("Location: ../unknown.php");
   exit();
-} else {
-  $loggedin = isset($_SESSION['username']);
-  $username = $loggedin ? $_SESSION['username'] : '';
 }
+
+ if (isset($_SESSION['username'])) {
+  header("Content-Type: text/html");
+  echo '<script type="text/javascript">';
+  echo 'history.go(-1);';
+  echo '</script>';
+   exit();
+ } else {
+    $loggedin = isset($_SESSION['username']);
+    $username = $loggedin ? $_SESSION['username'] : '';
+  }
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +24,9 @@ if (isset($_SESSION['username'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="https://icons.iconarchive.com/icons/3xhumed/mega-games-pack-39/256/Call-of-Duty-World-at-War-11-icon.png">
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit.css" />
-    <link rel="stylesheet" type="text/css" href="./src/css/uikit-mod.css">
-    <link rel="stylesheet" type="text/css" href="./src/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit.css" />
+    <link rel="stylesheet" type="text/css" href="../src/css/uikit-mod.css">
+    <link rel="stylesheet" type="text/css" href="../src/css/style.css">
     <title>MAMATSHOP</title>
 </head>
 <body >
@@ -30,9 +38,9 @@ if (isset($_SESSION['username'])) {
   </div>
   <div class="uk-navbar-right uk-margin-right">
     <ul class="uk-navbar-nav uk-visible@m">
-      <li><a href="./">HOME</a></li>
+      <li><a href="../">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="./store">TOKO</a></li>
+      <li><a href="../store">TOKO</a></li>
       <li><a href="#">BUSSINESS</a></li>
     </ul>
     <div class="uk-visible@m">
@@ -45,7 +53,7 @@ if (isset($_SESSION['username'])) {
       <div>
         <a class="uk-navbar-toggle" href="#" uk-icon="user"></a>
         <div uk-dropdown="pos: bottom-right; delay-hide: 400; animation: uk-animation-slide-top-small; animate-out: true; offset: -1">
-          <ul class="uk-nav uk-dropdown-nav">
+        <ul class="uk-nav uk-dropdown-nav">
             <?php if ($loggedin): ?>
             <li><?php echo htmlspecialchars($username); ?></li>
             <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
@@ -54,14 +62,14 @@ if (isset($_SESSION['username'])) {
             <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
             <li class="uk-nav-divider"></li>
             <?php if ($_SESSION['level']=='admin'): ?>
-            <li><a href="#"><span uk-icon="server"></span> Dashboard</a></li>
+            <li><a href="../dashboard"><span uk-icon="server"></span> Dashboard</a></li>
             <li class="uk-nav-divider"></li>
             <?php endif; ?>
             <li class="uk-nav-divider"></li>
-            <li><a href="logout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
+            <li><a href="../auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
             <?php endif; ?>
             <?php if (!$loggedin): ?>
-            <li class="uk-active"><a href="#"><span uk-icon="sign-in"></span> Login/Register</a></li>
+            <li><a href="../auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
             <?php endif; ?>
           </ul>
         </div>
@@ -91,62 +99,21 @@ if (isset($_SESSION['username'])) {
 </nav>
 </div>
     <!-- Main Content -->
-    <div class="uk-section uk-section-default" data-src="./src/img/tanki1.jpg" uk-img>
+    <div class="uk-section uk-section-default" data-src="../src/img/tanki1.jpg" uk-img>
         <div class="uk-container">
                 <div  class="uk-card uk-card-default uk-card-body">
-                <div class="uk-button-group uk-width-1-1" uk-switcher="animation: uk-animation-fade; toggle: > *">
-                    <button class="uk-button uk-button-default uk-width-1-2" type="button">Login</button>
-                    <button class="uk-button uk-button-default uk-width-1-2" type="button">Register</button>
-                </div>
-                <div class="uk-switcher uk-margin">
-                  <div>
-                  <form action="proseslogin.php" method="POST">
-                        <h2 class="uk-card-title">Login</h2>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="email" placeholder="Email" name="email" required>
-                        </div>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="password" placeholder="Password" name="password" required>
-                        </div>
-                        <div class="uk-margin">
-                            <button class="uk-button uk-button-primary uk-width-1-1" name="submit">Login</button>
-                        </div>
-                        <p class="uk-text-small"><a href="lupapassword.php">Lupa password?</a></p>
-                    </form>
-                  </div>
-                  <div>
-                  <form action="prosesregristasi.php" method="POST">
-                        <h2 class="uk-card-title">Register</h2>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="text" placeholder="Username" name="username" required>
-                        </div>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="email" placeholder="Email" name="email" required>
-                        </div>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="password" placeholder="Password" name="password" required>
-                        </div>
-                        <div class="uk-margin">
-                            <input class="uk-input" type="password" placeholder="Confirm Password" name="cpassword" required>
-                        </div>
-                        <div class="uk-margin">
-                            <select class="uk-select" name="level">
-                                <option disabled selected hidden>Register as</option>
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div class="uk-margin">
-                            <button class="uk-button uk-button-primary uk-width-1-1" name="submit">Register</button>
-                        </div>
-                    </form>
+                  <div class="uk-text-center">
+                    <br>
+                  <h2 class="uk-text-bolder">MOHON MAAF ANDA HARUS LOGIN DAHULU</h2>
+                  <h4>Silahkan kembali ke <a href="#" onclick="history.go(-1)">halaman sebelumnya</a> atau ke <a href="/mamatshop1/auth/loginregister.php">halaman login </a></h4>
+                  <br>
                   </div>
                 </div>
                 </div>
 
         </div>
     </div>
-    <footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
+<footer class="uk-section uk-section-secondary uk-padding-remove-bottom">
   <div class="uk-container">
     <div class="uk-grid uk-child-width-1-3@m" uk-grid>
       <div>
@@ -183,8 +150,8 @@ if (isset($_SESSION['username'])) {
   </div>
 </footer>
 </div>
-<script src="./src/js/fungsis.js"></script>
-<script src="./src/js/uikit.js"></script>
-<script src="./src/js/uikit-icons.js"></script>
+<script src="../src/js/fungsis.js"></script>
+<script src="../src/js/uikit.js"></script>
+<script src="../src/js/uikit-icons.js"></script>
 </body>
 </html>

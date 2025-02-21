@@ -1,13 +1,18 @@
 <?php
-include 'config.php';
+include '../../config.php';
 session_start();
 
+//if (isset($_SESSION['username'])) {
+//    if ($_SESSION['level'] == 'admin') {
+//        header("Location: dashboard.php");
+//    } else {
+//        header("Location: toko.php");
+//    }
+//    exit();
+//}
+
 if (isset($_SESSION['username'])) {
-    if ($_SESSION['level'] == 'admin') {
-        header("Location: dashboard.php");
-    } else {
-        header("Location: toko.php");
-    }
+    header("Location: ../../");
     exit();
 }
 
@@ -22,13 +27,14 @@ if (isset($_POST['submit'])) {
         $row = mysqli_fetch_assoc($result);
         $_SESSION['username'] = $row['username'];
         $_SESSION['level'] = $row['level'];
-        $_SESSION["show_popup"] = true; 
+        $_SESSION['user_id'] = $row['id'];
         
-        header("Location: index.php");
+        header("Location: ../welcome.php");
         exit();
     } else {
         echo "<script>alert('Email atau password Anda salah. Silakan coba lagi!')</script>";
-        echo '<script>window.location.href = "index.php"</script>';
+        echo '<script>window.location.href = "../loginregister.php"</script>';
+        exit();
     }
 }
 ?>

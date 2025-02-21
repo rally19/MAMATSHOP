@@ -1,9 +1,15 @@
 <?php
-session_start();
 include '../config.php';
-
-$loggedin = isset($_SESSION['username']);
-$username = $loggedin ? $_SESSION['username'] : '';
+include '../fungsi.php';
+session_start(); 
+ 
+if (!isset($_SESSION['username'])) {
+   header("Location: ../auth/haruslogin.php");
+   exit();
+}  else {
+   $loggedin = isset($_SESSION['username']);
+   $username = $loggedin ? $_SESSION['username'] : '';
+}
 
 if (isset($_SESSION['user_id'])) {
   $user_id = $_SESSION['user_id'];
@@ -16,24 +22,29 @@ if (isset($_SESSION['user_id'])) {
   $cart_total_quantity = 0;
 }
 
-// Filtai
-$type_filter = isset($_GET['type']) ? $_GET['type'] : '';
-$manufacturer_filter = isset($_GET['manufacturer']) ? $_GET['manufacturer'] : '';
-$min_price = isset($_GET['min_price']) ? (float)$_GET['min_price'] : 0;
-$max_price = isset($_GET['max_price']) ? (float)$_GET['max_price'] : PHP_FLOAT_MAX;
+$user_id = $_SESSION['user_id'];
 
-$sql = "SELECT * FROM products WHERE 1=1";
-if (!empty($type_filter)) {
-    $sql .= " AND type = '$type_filter'";
-}
-if (!empty($manufacturer_filter)) {
-    $sql .= " AND manufacturer = '$manufacturer_filter'";
-}
-if ($min_price > 0 || $max_price < PHP_FLOAT_MAX) {
-    $sql .= " AND price BETWEEN $min_price AND $max_price";
-}
-
+$sql = "SELECT id FROM carts WHERE user_id = $user_id";
 $result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $cart = $result->fetch_assoc();
+    $cart_id = $cart['id'];
+
+    $sql = "SELECT cart_items.*, products.name, products.price 
+            FROM cart_items 
+            JOIN products ON cart_items.product_id = products.id 
+            WHERE cart_items.cart_id = $cart_id";
+    $result = $conn->query($sql);
+
+    $total_price = 0;
+    while ($row = $result->fetch_assoc()) {
+        $total_price += $row['price'] * $row['quantity'];
+    }
+} else {
+    $total_price = 0;
+    $cart_items = [];
+}
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +58,7 @@ $result = $conn->query($sql);
     <link rel="stylesheet" type="text/css" href="../src/css/style.css">
     <title>MAMATSHOP</title>
 </head>
-<body>
+<body >
 <div class="uk-section-default uk-background-cover uk-preserve-color">
 <div uk-sticky>
 <nav class="uk-navbar-container" uk-navbar style="z-index: 50000;">
@@ -56,11 +67,12 @@ $result = $conn->query($sql);
     <ul class="uk-navbar-nav uk-visible@m">
       <li><a href="../">HOME</a></li>
       <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="#">TOKO</a></li>
+      <li><a href="../store">TOKO</a></li>
       <li><a href="#">BUSSINESS</a></li>
     </ul>
   </div>
   <div class="uk-navbar-right uk-margin-right">
+    
     <div class="uk-visible@m">
       <input class="uk-input uk-form-width-small uk-width-1-1" type="text" placeholder="Input" aria-label="Input">
     </div>
@@ -71,34 +83,34 @@ $result = $conn->query($sql);
     <a class="uk-navbar-toggle" href="keranjang.php" uk-icon="cart">
       <span id="cart-badge" class="uk-badge"><?php echo $cart_total_quantity; ?></span>
     </a>
-    </a>
     </div>
     <div class="uk-navbar-item uk-visible@m">
       <div>
         <a class="uk-navbar-toggle" href="#" uk-icon="user"></a>
         <div uk-dropdown="pos: bottom-right; delay-hide: 400; animation: uk-animation-slide-top-small; animate-out: true; offset: -1">
-          <ul class="uk-nav uk-dropdown-nav">
+        <ul class="uk-nav uk-dropdown-nav">
             <?php if ($loggedin): ?>
-              <li><?php echo htmlspecialchars($username); ?></li>
-              <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
-              <li class="uk-nav-divider"></li>
-              <li><a href="#"><span uk-icon="user"></span> Account</a></li>
-              <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
-              <li class="uk-nav-divider"></li>
-              <?php if ($_SESSION['level'] == 'admin'): ?>
-                <li><a href="../dashboard"><span uk-icon="server"></span> Dashboard</a></li>
-                <li class="uk-nav-divider"></li>
-              <?php endif; ?>
-              <li class="uk-nav-divider"></li>
-              <li><a href="../auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
+            <li><?php echo htmlspecialchars($username); ?></li>
+            <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
+            <li class="uk-nav-divider"></li>
+            <li><a href="#"><span uk-icon="user"></span> Account</a></li>
+            <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
+            <li class="uk-nav-divider"></li>
+            <?php if ($_SESSION['level']=='admin'): ?>
+            <li><a href="../dashboard"><span uk-icon="server"></span> Dashboard</a></li>
+            <li class="uk-nav-divider"></li>
+            <?php endif; ?>
+            <li class="uk-nav-divider"></li>
+            <li><a href="../auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
             <?php endif; ?>
             <?php if (!$loggedin): ?>
-              <li><a href="../auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
+            <li><a href="../auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
             <?php endif; ?>
           </ul>
         </div>
       </div>
     </div>
+    
     <a class="uk-navbar-toggle uk-navbar-toggle-animate uk-hidden@m" uk-navbar-toggle-icon href="#" uk-toggle="target: #offcanvas-nav-primary"></a>
     <div id="offcanvas-nav-primary" uk-offcanvas="mode: slide">
       <div class="uk-offcanvas-bar uk-flex uk-flex-column">
@@ -123,68 +135,54 @@ $result = $conn->query($sql);
   </div>
 </nav>
 </div>
-<div class="uk-container uk-margin-remove-left uk-margin-remove-right uk-margin-large-top uk-width-1-1">
-  <div class="uk-grid-small" uk-grid>
-    <div class="uk-width-1-4@m">
-      <div class="uk-card uk-card-default uk-card-body uk-card-hover" uk-sticky="offset: 90; end: true" style="z-index: 500;">
-        <h4 class="uk-card-title">Filter</h4>
-        <form method="GET" action="">
-          <div class="uk-margin">
-            <label class="uk-form-label">Tipe</label>
-            <select class="uk-select" name="type">
-              <option value="">Semua</option>
-              <option value="LFT" <?php echo ($type_filter == 'LFT') ? 'selected' : ''; ?>>LFT</option>
-              <option value="MBT" <?php echo ($type_filter == 'MBT') ? 'selected' : ''; ?>>MBT</option>
-              <option value="IFW" <?php echo ($type_filter == 'IFW') ? 'selected' : ''; ?>>IFW</option>
-            </select>
-          </div>
-          <div class="uk-margin">
-            <label class="uk-form-label">Pembuat</label>
-            <select class="uk-select" name="manufacturer">
-              <option value="">Semua</option>
-              <option value="LFT" <?php echo ($manufacturer_filter == 'LFT') ? 'selected' : ''; ?>>LFT</option>
-              <option value="BUMN" <?php echo ($manufacturer_filter == 'BUMN') ? 'selected' : ''; ?>>BUMN</option>
-              <option value="LeoFact" <?php echo ($manufacturer_filter == 'LeoFact') ? 'selected' : ''; ?>>LeoFact</option>
-            </select>
-          </div>
-          <div class="uk-margin">
-            <label class="uk-form-label">Harga</label>
-            <input class="uk-input" type="number" name="min_price" placeholder="Harga min." value="<?php echo $min_price; ?>">
-            <input class="uk-input uk-margin-small-top" type="number" name="max_price" placeholder="Harga maks." value="<?php echo $max_price; ?>">
-          </div>
-          <button class="uk-button uk-button-primary uk-width-1-1">Apply</button>
-        </form>
-      </div>
-    </div>
-    <div class="uk-width-expand">
-  <div class="uk-grid-small uk-child-width-1-4@l uk-child-width-1-3@m uk-child-width-1-2@s" uk-grid>
-    <?php while ($row = $result->fetch_assoc()): ?>
-      <div>
-        <div class="uk-card-small uk-card-default uk-card-hover uk-flex uk-flex-column uk-height-1-1">
-          <div class="uk-card-media-top">
-            <img src="<?php echo $row['image_url']; ?>" alt="<?php echo $row['name']; ?>">
-          </div>
-          <div class="uk-card-body uk-flex-1">
-            <h3 class="uk-card-title uk-margin-small uk-text-truncate"><?php echo $row['name']; ?></h3>
-            <p class="uk-text-meta uk-margin-remove">Tipe: <?php echo $row['type']; ?></p>
-            <p class="uk-text-meta uk-margin-remove">Pembuat: <?php echo $row['manufacturer']; ?></p>
-            <p class="uk-text-bold uk-margin-small">Rp <?php echo number_format($row['price'], 2); ?></p>
-          </div>
-          <div class="uk-card-footer uk-text-center">
-          <button class="uk-button uk-button-primary" onclick="window.location.href='produk_details.php?id=<?php echo $row['id']; ?>'">Details</button>
-          <form action="proses/add_keranjang.php" method="POST" style="display: inline;">
-            <input type="hidden" name="product_id" value="<?php echo $row['id']; ?>">
-            <button type="submit" class="uk-button uk-button-primary" uk-icon="cart"></button>
-          </form>
-        </div>
-        </div>
-      </div>
-    <?php endwhile; ?>
-  </div>
-</div>
+<div class="uk-container uk-margin-top">
+    <h1>Items in Cart</h1>
+    
+    <table class="uk-table uk-table-striped uk-table-hover uk-box-shadow-small">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Harga</th>
+                <th>Total Harga</th>
+                <th>Jumlah</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            if (isset($cart_id)) {
+                $result->data_seek(0); 
+                while ($row = $result->fetch_assoc()): 
+                    $item_total_price = $row['price'] * $row['quantity'];
+            ?>
+                <tr>
+                    <td><?php echo $row['name']; ?></td>
+                    <td><?php echo formatUang($row['price']); ?></td>
+                    <td><?php echo formatUang($item_total_price); ?></td>
+                    <td>
+                        <a href="proses/update_keranjang.php?action=decrease&cart_item_id=<?php echo $row['id']; ?>" class="uk-icon-button" uk-icon="minus"></a>
+                        <?php echo $row['quantity']; ?>
+                        <a href="proses/update_keranjang.php?action=increase&cart_item_id=<?php echo $row['id']; ?>" class="uk-icon-button" uk-icon="plus"></a>
+                    </td>
+                    <td>
+                    <a href="produk_details.php?id=<?php echo $row['product_id']; ?>" class="uk-icon-button uk-button-primary" uk-icon="eye"></a>
+                       <a href="proses/update_keranjang.php?action=delete&cart_item_id=<?php echo $row['id']; ?>" class="uk-icon-button uk-button-danger" uk-icon="trash" onclick="return confirm('Are you sure you want to delete this item?')"></a>
+                    </td>
+                </tr>
+                <?php endwhile;
+            } else {
+                echo '<tr><td colspan="5" class="uk-text-center">Keranjang Anda kosong.</td></tr>';
+            }
+            ?>
+        </tbody>
+    </table>
 
-  </div>
-</div>
+    <h1>Order Summary</h1>
+    <div class="uk-flex uk-flex-between uk-align-center uk-margin-bottom">
+        <h3>Total Price: <?php echo formatUang($total_price); ?></h3>
+        <button class="uk-button uk-button-primary" disabled>Order Now</button>
+    </div>
+    <a href="proses/update_keranjang.php?action=delete_all" class="uk-button uk-button-danger" onclick="return confirm('Are you sure you want to delete all items in your cart?')">Delete All Items</a>
 </div>
 <footer class="uk-section uk-section-secondary uk-padding-remove-bottom uk-margin-top">
   <div class="uk-container">
@@ -214,7 +212,7 @@ $result = $conn->query($sql);
       </div>
     </div>
     <div class="uk-section uk-section-xsmall">
-      <hr>
+    <hr>
       <div class="uk-flex uk-flex-between uk-flex-middle">
         <p class="uk-text-small uk-text-muted">&copy; 2023 Mamatshop. All rights reserved.</p>
         <p class="uk-text-small uk-text-muted">123 Main Street, City, Country</p>
@@ -228,3 +226,9 @@ $result = $conn->query($sql);
 <script src="../src/js/uikit-icons.js"></script>
 </body>
 </html>
+
+
+<?php
+
+?>
+

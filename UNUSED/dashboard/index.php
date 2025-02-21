@@ -37,23 +37,17 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'home';
                 <li><a href="index.php?action=home">Home</a></li>
                 <li><a href="#">Settings</a></li>
                 <li class="uk-parent">
-                <a href="#">User<span uk-nav-parent-icon></span></a>
-            <ul class="uk-nav-sub">
-                <li><a href="index.php?action=list-user">List User</a></li>
-                <li><a href="index.php?action=create-user">Create User</a></li>
-            </ul>
-                </li>
-                <li class="uk-parent">
-            <a href="#">Product<span uk-nav-parent-icon></span></a>
+            <a href="#">Produk<span uk-nav-parent-icon></span></a>
             <ul class="uk-nav-sub">
                 <li><a href="index.php?action=list-produk">List Produk</a></li>
                 <li><a href="index.php?action=create-produk">Create Produk</a></li>
             </ul>
             </li>
             <li class="uk-parent">
-            <a href="#">Cart<span uk-nav-parent-icon></span></a>
+            <a href="#">Parent <span uk-nav-parent-icon></span></a>
             <ul class="uk-nav-sub">
-                <li><a href="index.php?action=list-cart">List Keranjang</a></li>
+                <li><a href="#">Sub item</a></li>
+                <li><a href="#">Sub item</a></li>
             </ul>
             </li>
             <li class="uk-nav-divider"></li>
@@ -75,7 +69,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'home';
                 <ul class="uk-nav uk-dropdown-nav">
                     <?php if ($loggedin): ?>
                     <li><?php echo htmlspecialchars($username); ?></li>
-                    <li class="my-text-silver"><?php echo htmlspecialchars($_SESSION['level']); ?></li>
+                    <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
                     <li class="uk-nav-divider"></li>
                     <li><a href="#"><span uk-icon="user"></span> Account</a></li>
                     <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
@@ -109,21 +103,6 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'home';
             </div>
             <?php
             switch ($action) {
-                case 'list-user':
-                    include 'user/list.php';
-                    break;
-                case 'view-user':
-                    include 'user/view.php';
-                    break;
-                case 'edit-user':
-                    include 'user/edit.php';
-                    break;
-                case 'delete-user':
-                    include 'user/delete.php';
-                    break;
-                case 'create-user':
-                    include 'user/create.php';
-                    break;
                 case 'list-produk':
                     include 'produk/list.php';
                     break;
@@ -138,21 +117,6 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'home';
                     break;
                 case 'create-produk':
                     include 'produk/create.php';
-                    break;
-                case 'delete-cart':
-                    include 'cart/delete.php';
-                    break;
-                case 'delete-item-cart':
-                    include 'cart/item_delete.php';
-                    break;
-                case 'edit-item-cart':
-                    include 'cart/item_edit.php';
-                    break;
-                case 'list-cart':
-                    include 'cart/list.php';
-                    break;
-                case 'view-cart':
-                    include 'cart/view.php';
                     break;
                 default:
                     include 'home.php';
