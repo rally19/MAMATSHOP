@@ -1,7 +1,4 @@
 <?php
-include '../config.php';
-include '../fungsi.php';
-
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if (!empty($id)) {

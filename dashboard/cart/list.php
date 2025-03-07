@@ -1,6 +1,4 @@
 <?php
-include '../config.php';
-
 $query = "
     SELECT c.id AS cart_id, u.username, c.created_at, COUNT(ci.id) AS item_count 
     FROM carts c 

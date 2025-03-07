@@ -8,7 +8,7 @@
       <div>
         <h4 class="uk-text-bold">LINKS</h4>
         <ul class="uk-list">
-          <li <?= NavActive('index.php') ?>><a href="/mamatshop1/" class="uk-link-text">Home</a></li>
+          <li><a href="/mamatshop1/" cliss="uk-link-text">Home</a></li>
           <li><a href="/mamatshop1/about" class="uk-link-text">About</a></li>
           <li><a href="/mamatshop1/bussiness" class="uk-link-text">Bussiness</a></li>
           <li><a href="/mamatshop1/store" class="uk-link-text">Toko</a></li>

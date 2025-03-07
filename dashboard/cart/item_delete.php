@@ -1,6 +1,4 @@
 <?php
-include '../config.php';
-
 $item_id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if (!empty($item_id)) {

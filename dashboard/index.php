@@ -1,5 +1,7 @@
 <?php 
 include '../config.php';
+include '../fungsi.php';
+
 session_start(); 
  
  if (!isset($_SESSION['username'])) {
@@ -17,6 +19,7 @@ $sql = "SELECT id, username, email, password, level FROM users";
 $result = $conn->query($sql);
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'home';
+
 ?>
 
 <!DOCTYPE html>

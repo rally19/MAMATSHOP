@@ -1,6 +1,4 @@
 <?php
-include '../config.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : null;
     $item_id = isset($_POST['item_id']) ? $_POST['item_id'] : null;

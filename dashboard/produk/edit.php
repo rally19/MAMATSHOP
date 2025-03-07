@@ -1,7 +1,4 @@
 <?php
-include '../config.php';
-include '../fungsi.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     $name = $_POST['name'];

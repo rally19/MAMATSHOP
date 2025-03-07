@@ -4,9 +4,9 @@
     <a class="uk-navbar-item uk-logo uk-text-bold" href="#">MAMATSHOP</a>
     <ul class="uk-navbar-nav uk-visible@m">
       <li><a href="/mamatshop1/">HOME</a></li>
-      <li><a href="#">TENTANG KAMI</a></li>
-      <li <?= NavActive('index.php') ?>><a href="/mamatshop1/store">TOKO</a></li>
+      <li><a href="#">ABOUT</a></li>
       <li><a href="#">BUSSINESS</a></li>
+      <li <?= NavActive('index.php') ?>><a href="/mamatshop1/store">TOKO</a></li>
     </ul>
   </div>
   <div class="uk-navbar-right uk-margin-right">

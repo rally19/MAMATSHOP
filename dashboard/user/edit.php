@@ -1,6 +1,4 @@
 <?php
-include '../config.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = isset($_POST['id']) ? $_POST['id'] : null;
     $level = $_POST['level'];
