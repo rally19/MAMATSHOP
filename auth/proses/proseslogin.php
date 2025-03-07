@@ -2,14 +2,6 @@
 include '../../config.php';
 session_start();
 
-//if (isset($_SESSION['username'])) {
-//    if ($_SESSION['level'] == 'admin') {
-//        header("Location: dashboard.php");
-//    } else {
-//        header("Location: toko.php");
-//    }
-//    exit();
-//}
 
 if (isset($_SESSION['username'])) {
     header("Location: ../../");
@@ -18,7 +10,7 @@ if (isset($_SESSION['username'])) {
 
 if (isset($_POST['submit'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = hash('sha256', $_POST['password']); // Hash the input password using SHA-256
+    $password = hash('sha256', $_POST['password']);
 
     $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
     $result = mysqli_query($conn, $sql);

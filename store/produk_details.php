@@ -5,18 +5,12 @@ include '../config.php';
 if (!isset($_GET['id'])) {
     header("Location: ./"); 
     exit();
-}
+} else {
+    $loggedin = isset($_SESSION['username']);
+    $username = $loggedin ? $_SESSION['username'] : '';
+ }
 
-if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id'];
-    $sql = "SELECT SUM(quantity) as total_quantity FROM cart_items 
-            JOIN carts ON cart_items.cart_id = carts.id 
-            WHERE carts.user_id = $user_id";
-    $result = $conn->query($sql);
-    $cart_total_quantity = $result->fetch_assoc()['total_quantity'];
-  } else {
-    $cart_total_quantity = 0;
-  }
+include '../fungsi.php';
 
 $product_id = $_GET['id'];
 
@@ -47,78 +41,7 @@ $product = $result->fetch_assoc();
 </head>
 <body>
 <div class="uk-section-default uk-background-cover uk-preserve-color">
-    <div uk-sticky>
-        <nav class="uk-navbar-container" uk-navbar style="z-index: 50000;">
-            <div class="uk-navbar-left uk-margin-left">
-                <a class="uk-navbar-item uk-logo uk-text-bold" href="#">MAMATSHOP</a>
-                <ul class="uk-navbar-nav uk-visible@m">
-                    <li><a href="../">HOME</a></li>
-                    <li><a href="#">TENTANG KAMI</a></li>
-                    <li><a href="./">TOKO</a></li>
-                    <li><a href="#">BUSSINESS</a></li>
-                </ul>
-            </div>
-            <div class="uk-navbar-right uk-margin-right">
-                <div class="uk-visible@m">
-                    <input class="uk-input uk-form-width-small uk-width-1-1" type="text" placeholder="Input" aria-label="Input">
-                </div>
-                <div class="uk-visible@m">
-                    <a class="uk-navbar-toggle" href="#" uk-search-icon></a>
-                </div>
-                <div class="uk-visible@m">
-                <a class="uk-navbar-toggle" href="keranjang.php" uk-icon="cart">
-                <span id="cart-badge" class="uk-badge"><?php echo $cart_total_quantity; ?></span>
-                </a>
-                </div>
-                <div class="uk-navbar-item uk-visible@m">
-                    <div>
-                        <a class="uk-navbar-toggle" href="#" uk-icon="user"></a>
-                        <div uk-dropdown="pos: bottom-right; delay-hide: 400; animation: uk-animation-slide-top-small; animate-out: true; offset: -1">
-                            <ul class="uk-nav uk-dropdown-nav">
-                                <?php if (isset($_SESSION['username'])): ?>
-                                    <li><?php echo htmlspecialchars($_SESSION['username']); ?></li>
-                                    <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
-                                    <li class="uk-nav-divider"></li>
-                                    <li><a href="#"><span uk-icon="user"></span> Account</a></li>
-                                    <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
-                                    <li class="uk-nav-divider"></li>
-                                    <?php if ($_SESSION['level'] == 'admin'): ?>
-                                        <li><a href="../dashboard"><span uk-icon="server"></span> Dashboard</a></li>
-                                        <li class="uk-nav-divider"></li>
-                                    <?php endif; ?>
-                                    <li class="uk-nav-divider"></li>
-                                    <li><a href="../auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
-                                <?php else: ?>
-                                    <li><a href="../auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
-                                <?php endif; ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <a class="uk-navbar-toggle uk-navbar-toggle-animate uk-hidden@m" uk-navbar-toggle-icon href="#" uk-toggle="target: #offcanvas-nav-primary"></a>
-                <div id="offcanvas-nav-primary" uk-offcanvas="mode: slide">
-                    <div class="uk-offcanvas-bar uk-flex uk-flex-column">
-                        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
-                            <li class="uk-active"><a class="uk-navbar-item uk-logo uk-text-bold" href="javascript:void(0)">MAMATSHOP</a></li>
-                            <li class="uk-parent"><a href="#">Active</a></li>
-                            <li class="uk-parent">
-                                <a href="#">Parent</a>
-                                <ul class="uk-nav-sub">
-                                    <li><a href="#">Sub item</a></li>
-                                    <li><a href="#">Sub item</a></li>
-                                </ul>
-                            </li>
-                            <li class="uk-nav-header">Header</li>
-                            <li><a href="#"><span class="uk-margin-xsmall-right" uk-icon="icon: table"></span> Item</a></li>
-                            <li><a href="#"><span class="uk-margin-xsmall-right" uk-icon="icon: thumbnails"></span> Item</a></li>
-                            <li class="uk-nav-divider"></li>
-                            <li><a href="#"><span class="uk-margin-xsmall-right" uk-icon="icon: trash"></span> Item</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+    <?php include_once '../components/navbar-store.php'; ?>
     <div class="uk-container uk-margin-large-top">
     <div class="uk-grid-large uk-child-width-1-2@m uk-grid-match" uk-grid>
         <div>
@@ -128,20 +51,25 @@ $product = $result->fetch_assoc();
             </div>
         </div>
         <div>
-            <div class="uk-card uk-card-default uk-card-body">
-                <h3 class="uk-heading-bullet uk-margin-small-bottom"><?php echo htmlspecialchars($product['name']); ?></h3>
-                <ul class="uk-list uk-list-divider">
-                    <li><strong>Tipe:</strong> <?php echo htmlspecialchars($product['type']); ?></li>
-                    <li><strong>Pembuat:</strong> <?php echo htmlspecialchars($product['manufacturer']); ?></li>
-                    <li><strong>Harga:</strong> Rp <?php echo number_format($product['price'], 2); ?></li>
-                    <li><strong>Stock:</strong> <?php echo htmlspecialchars($product['stock']); ?></li>
-                </ul>
-                <p class="uk-margin-small-top"><?php echo htmlspecialchars($product['description']); ?></p>
-                <br><br><br>
-                <button class="uk-button uk-button-primary uk-width-1-1 uk-box-shadow-small"><span uk-icon="icon: cart"></span> Tambah ke Keranjang </button>
-            </div>
-            
+        <div class="uk-card uk-card-default uk-card-body">
+            <h3 class="uk-heading-bullet uk-margin-small-bottom"><?php echo htmlspecialchars($product['name']); ?></h3>
+            <ul class="uk-list uk-list-divider">
+                <li><strong>Tipe:</strong> <?php echo htmlspecialchars($product['type']); ?></li>
+                <li><strong>Pembuat:</strong> <?php echo htmlspecialchars($product['manufacturer']); ?></li>
+                <li><strong>Harga:</strong> Rp <?php echo number_format($product['price'], 2); ?></li>
+                <li><strong>Stock:</strong> <?php echo htmlspecialchars($product['stock']); ?></li>
+            </ul>
+            <p class="uk-margin-small-top"><?php echo htmlspecialchars($product['description']); ?></p>
+            <br><br><br>
+            <form action="proses/add_keranjang.php" method="POST" style="display: inline;">
+                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                <button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-box-shadow-small">
+                    <span uk-icon="icon: cart"></span> Tambah ke Keranjang
+                </button>
+            </form>
         </div>
+    </div>
+
         
     </div>
     

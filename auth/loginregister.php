@@ -1,4 +1,5 @@
 <?php 
+include '../fungsi.php';
 session_start(); 
  
 if (isset($_SESSION['username'])) {
@@ -23,73 +24,7 @@ if (isset($_SESSION['username'])) {
 </head>
 <body >
 <div class="uk-section-secondary uk-background-cover uk-preserve-color">
-<div uk-sticky="start: 170; animation: uk-animation-slide-top; sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; cls-inactive: uk-navbar-transparent uk-light; end: ! *">
-<nav class="uk-navbar-container" uk-navbar>
-  <div class="uk-navbar-left uk-margin-left">
-    <a class="uk-navbar-item uk-logo uk-text-bold" href="#">MAMATSHOP</a>
-  </div>
-  <div class="uk-navbar-right uk-margin-right">
-    <ul class="uk-navbar-nav uk-visible@m">
-      <li><a href="../">HOME</a></li>
-      <li><a href="#">TENTANG KAMI</a></li>
-      <li><a href="../store">TOKO</a></li>
-      <li><a href="#">BUSSINESS</a></li>
-    </ul>
-    <div class="uk-visible@m">
-      <input class="uk-input uk-form-width-small uk-width-1-1" type="text" placeholder="Input" aria-label="Input">
-    </div>
-    <div class="uk-visible@m">
-      <a class="uk-navbar-toggle" href="#" uk-search-icon></a>
-    </div>
-    <div class="uk-navbar-item uk-visible@m">
-      <div>
-        <a class="uk-navbar-toggle" href="#" uk-icon="user"></a>
-        <div uk-dropdown="pos: bottom-right; delay-hide: 400; animation: uk-animation-slide-top-small; animate-out: true; offset: -1">
-        <ul class="uk-nav uk-dropdown-nav">
-            <?php if ($loggedin): ?>
-            <li><?php echo htmlspecialchars($username); ?></li>
-            <li class="my-text-silver"><?php echo $_SESSION['level']; ?></li>
-            <li class="uk-nav-divider"></li>
-            <li><a href="#"><span uk-icon="user"></span> Account</a></li>
-            <li><a href="#"><span uk-icon="cog"></span> Settings</a></li>
-            <li class="uk-nav-divider"></li>
-            <?php if ($_SESSION['level']=='admin'): ?>
-            <li><a href="../dashboard"><span uk-icon="server"></span> Dashboard</a></li>
-            <li class="uk-nav-divider"></li>
-            <?php endif; ?>
-            <li class="uk-nav-divider"></li>
-            <li><a href="../auth/proses/proseslogout.php"><span uk-icon="sign-out"></span> Log Out</a></li>
-            <?php endif; ?>
-            <?php if (!$loggedin): ?>
-            <li><a href="../auth/loginregister.php"><span uk-icon="sign-in"></span> Login/Register</a></li>
-            <?php endif; ?>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <a class="uk-navbar-toggle uk-navbar-toggle-animate uk-hidden@m" uk-navbar-toggle-icon href="#" uk-toggle="target: #offcanvas-nav-primary"></a>
-    <div id="offcanvas-nav-primary" uk-offcanvas="mode: slide">
-      <div class="uk-offcanvas-bar uk-flex uk-flex-column">
-        <ul class="uk-nav uk-nav-primary uk-nav-center uk-margin-auto-vertical">
-          <li class="uk-active"><a href="#">Active</a></li>
-          <li class="uk-parent">
-            <a href="#">Parent</a>
-            <ul class="uk-nav-sub">
-              <li><a href="#">Sub item</a></li>
-              <li><a href="#">Sub item</a></li>
-            </ul>
-          </li>
-          <li class="uk-nav-header">Header</li>
-          <li><a href="#"><span class="uk-margin-xsmall-right" uk-icon="icon: table"></span> Item</a></li>
-          <li><a href="#"><span class="uk-margin-xsmall-right" uk-icon="icon: thumbnails"></span> Item</a></li>
-          <li class="uk-nav-divider"></li>
-          <li><a href="#"><span class="uk-margin-xsmall-right" uk-icon="icon: trash"></span> Item</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
-</div>
+<?php include_once '../components/navbar-index.php'; ?>
     <!-- Main Content -->
     <div class="uk-section uk-section-default" data-src="../src/img/tanki1.jpg" uk-img>
         <div class="uk-container">

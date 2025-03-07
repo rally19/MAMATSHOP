@@ -37,7 +37,7 @@ if ($result->num_rows > 0) {
 }
 
 if ($conn->query($sql) === TRUE) {
-    header('Location: ../index.php');
+    echo "<script>history.go(-1);</script>";
 } else {
     die("Error adding product to cart: " . $conn->error);
 }

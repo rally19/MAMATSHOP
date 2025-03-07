@@ -100,10 +100,32 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'home';
                 <div class="uk-offcanvas-bar">
                     <h3>Dashboard</h3>
                     <ul class="uk-nav uk-nav-default">
-                        <li class="uk-active"><a href="#">Home</a></li>
-                        <li><a href="#">Reports</a></li>
-                        <li><a href="#">Settings</a></li>
-                        <li><a href="#">Logout</a></li>
+                        <ul class="uk-nav-default" uk-nav="multiple: true">
+                            <li><a href="index.php?action=home">Home</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li class="uk-parent">
+                            <a href="#">User<span uk-nav-parent-icon></span></a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="index.php?action=list-user">List User</a></li>
+                            <li><a href="index.php?action=create-user">Create User</a></li>
+                        </ul>
+                            </li>
+                            <li class="uk-parent">
+                        <a href="#">Product<span uk-nav-parent-icon></span></a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="index.php?action=list-produk">List Produk</a></li>
+                            <li><a href="index.php?action=create-produk">Create Produk</a></li>
+                        </ul>
+                        </li>
+                        <li class="uk-parent">
+                        <a href="#">Cart<span uk-nav-parent-icon></span></a>
+                        <ul class="uk-nav-sub">
+                            <li><a href="index.php?action=list-cart">List Keranjang</a></li>
+                        </ul>
+                        </li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="../">Exit</a></li>
+                        </ul>
                     </ul>
                 </div>
             </div>
